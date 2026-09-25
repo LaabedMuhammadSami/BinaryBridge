@@ -3,6 +3,8 @@
 
 using namespace std;
 
+string addition(string x, string y);
+
 int main()
 {
     string a;
@@ -26,8 +28,6 @@ int main()
 
         if(operation == 'A' || operation == 'a')
         {
-            sum = "";
-
             cout << "-Enter the first binary number: ";
             cin >> a;
 
@@ -35,25 +35,8 @@ int main()
 
             cout << "-Enter the second binary number: ";
             cin >> b;
-        
-            if(a.length() > b.length()) b.insert(0, a.length() - b.length(), '0');
-            else if(a.length() < b.length()) a.insert(0, b.length() - a.length(), '0');
-
-            for(int i = b.length() - 1; i > 0; i--)
-            {
-                if((b.at(i) - '0') + (a.at(i) - '0') < 2) sum.insert(0, to_string((b.at(i) - '0') + (a.at(i) - '0')));
-                else
-                {
-                    sum.insert(0, to_string((b.at(i) - '0') + (a.at(i) - '0') - 2));
-                    a.at(i - 1) = char((a.at(i - 1) - '0' + 1) + '0');
-                }
-            }
-
-            if((b.at(0) - '0') + (a.at(0) - '0') < 2) sum.insert(0, to_string((b.at(0) - '0') + (a.at(0) - '0')));
-            else if ((b.at(0) - '0') + (a.at(0) - '0') == 2) sum.insert(0, "10");
-            else sum.insert(0, "11");
-
-            cout << "-" << aOg << " + " << b << " = " << sum << endl;
+            
+            cout << "-" << aOg << " + " << b << " = " << addition(a,b) << endl;
         }
         else if(operation == 'C' || operation == 'c')
         {
@@ -80,31 +63,33 @@ int main()
             cin >> presentation;
 
             if(presentation == '1') cout << "-1's C(" << aOg << ") = " << a << endl;
-            else if(presentation == '2')
-            {
-                sum = "";
-                b = "1";
-            
-                b.insert(0, a.length() - b.length(), '0');
-
-                for(int i = b.length() - 1; i > 0; i--)
-                {
-                    if((b.at(i) - '0') + (a.at(i) - '0') < 2) sum.insert(0, to_string((b.at(i) - '0') + (a.at(i) - '0')));
-                    else
-                    {
-                        sum.insert(0, to_string((b.at(i) - '0') + (a.at(i) - '0') - 2));
-                        a.at(i - 1) = char((a.at(i - 1) - '0' + 1) + '0');
-                    }
-                }
-
-                if((b.at(0) - '0') + (a.at(0) - '0') < 2) sum.insert(0, to_string((b.at(0) - '0') + (a.at(0) - '0')));
-                else if ((b.at(0) - '0') + (a.at(0) - '0') == 2) sum.insert(0, "10");
-                else sum.insert(0, "11");
-
-                cout << "-2's C(" << aOg << ") = " << sum << endl;
-            }
+            else if(presentation == '2') cout << "-2's C(" << aOg << ") = " << addition(a, "1") << endl;
         }
 
         cout << "---------------------------------------" << endl;
     }
+}
+
+string addition(string x, string y)
+{
+    string sum = "";
+
+    if(x.length() > y.length()) y.insert(0, x.length() - y.length(), '0');
+    else if(x.length() < y.length()) x.insert(0, y.length() - x.length(), '0');
+
+    for(int i = y.length() - 1; i > 0; i--)
+    {
+        if((y.at(i) - '0') + (x.at(i) - '0') < 2) sum.insert(0, to_string((y.at(i) - '0') + (x.at(i) - '0')));
+        else
+        {
+            sum.insert(0, to_string((y.at(i) - '0') + (x.at(i) - '0') - 2));
+            x.at(i - 1) = char((x.at(i - 1) - '0' + 1) + '0');
+        }
+    }
+
+    if((y.at(0) - '0') + (x.at(0) - '0') < 2) sum.insert(0, to_string((y.at(0) - '0') + (x.at(0) - '0')));
+    else if ((y.at(0) - '0') + (x.at(0) - '0') == 2) sum.insert(0, "10");
+    else sum.insert(0, "11");
+
+    return sum;
 }
